@@ -1,1 +1,1 @@
-# samples-nodered
+# samples-node-red
