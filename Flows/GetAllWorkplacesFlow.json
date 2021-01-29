@@ -1,0 +1,193 @@
+[
+    {
+        "id": "3bcbab72.8f0214",
+        "type": "tab",
+        "label": "GetAllWorkplacesFlow",
+        "disabled": false,
+        "info": "A sample how to get an access token and all workplaces from our BridgeAPI."
+    },
+    {
+        "id": "364794dd.a266d4",
+        "type": "debug",
+        "z": "3bcbab72.8f0214",
+        "name": "Log request",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "72c415d5.b0e404",
+        "type": "http request",
+        "z": "3bcbab72.8f0214",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 120,
+        "wires": [
+            [
+                "c700a7e8.ffec3"
+            ]
+        ]
+    },
+    {
+        "id": "544bd0f0.735aa8",
+        "type": "inject",
+        "z": "3bcbab72.8f0214",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "72c415d5.b0e404"
+            ]
+        ]
+    },
+    {
+        "id": "15b86cac.626adb",
+        "type": "debug",
+        "z": "3bcbab72.8f0214",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "dafae09d.7e85b8",
+        "type": "function",
+        "z": "3bcbab72.8f0214",
+        "name": "Add HTTP headers",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "364794dd.a266d4",
+                "deccd91e.818db8"
+            ]
+        ]
+    },
+    {
+        "id": "c700a7e8.ffec3",
+        "type": "json",
+        "z": "3bcbab72.8f0214",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 640,
+        "y": 120,
+        "wires": [
+            [
+                "dafae09d.7e85b8",
+                "15b86cac.626adb"
+            ]
+        ]
+    },
+    {
+        "id": "deccd91e.818db8",
+        "type": "http request",
+        "z": "3bcbab72.8f0214",
+        "name": "HTTP GET request workplaces",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1050,
+        "y": 340,
+        "wires": [
+            [
+                "37773ce7.76ecbc"
+            ]
+        ]
+    },
+    {
+        "id": "3bf91fab.9a7e9",
+        "type": "debug",
+        "z": "3bcbab72.8f0214",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1580,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "37773ce7.76ecbc",
+        "type": "json",
+        "z": "3bcbab72.8f0214",
+        "name": "jsonString of workplaces",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1350,
+        "y": 340,
+        "wires": [
+            [
+                "3bf91fab.9a7e9"
+            ]
+        ]
+    },
+    {
+        "id": "ab494fd3.dc8b2",
+        "type": "comment",
+        "z": "3bcbab72.8f0214",
+        "name": "...use access token in Header for HTTP Request to get all workplaces",
+        "info": "",
+        "x": 1070,
+        "y": 200,
+        "wires": []
+    }
+]
