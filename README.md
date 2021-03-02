@@ -32,6 +32,7 @@ A small Node-Red application wich authenticates to a FORCAM FORCE Bridge API and
 
 ![Image](assets/AuthenticationGif.gif)
 
+File: "GetTokenFlow.json".
 
 # Get all available workplaces
 
@@ -39,6 +40,7 @@ A small Node-Red application wich authenticates to a FORCAM FORCE Bridge API, de
 
 ![Image](assets/GetAvailableWorkplacesGif.gif)
 
+File: "GetAllWorkplacesFlow.json".
 
 # Get current operating state of a workplace
 
@@ -46,9 +48,12 @@ A small Node-Red application wich authenticates to a FORCAM FORCE Bridge API, de
 
 ![Image](assets/GetOperatingStateOfWorkplaceGif.gif)
 
+File: "GetCurrentStateofWorkplaceFlow.json".
 
 # Get all operating states
 
 A small Node-Red application wich authenticates to a FORCAM FORCE Bridge API, determine all operating states and prints them out.
 
 ![Image](assets/GetOperatingStatesGif.gif)
+
+File: "GetAllOperatingStatesFlow.json ".
