@@ -94,13 +94,13 @@
         "id": "dafae09d.7e85b8",
         "type": "function",
         "z": "3bcbab72.8f0214",
-        "name": "Add HTTP headers",
-        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "name": "Add HTTP headers and URL of workplaces",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 790,
+        "x": 730,
         "y": 260,
         "wires": [
             [
@@ -113,11 +113,11 @@
         "id": "c700a7e8.ffec3",
         "type": "json",
         "z": "3bcbab72.8f0214",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 640,
+        "x": 600,
         "y": 120,
         "wires": [
             [
@@ -168,11 +168,11 @@
         "id": "37773ce7.76ecbc",
         "type": "json",
         "z": "3bcbab72.8f0214",
-        "name": "jsonString of workplaces",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1350,
+        "x": 1320,
         "y": 340,
         "wires": [
             [
@@ -186,7 +186,7 @@
         "z": "3bcbab72.8f0214",
         "name": "...use access token in Header for HTTP Request to get all workplaces",
         "info": "",
-        "x": 1070,
+        "x": 910,
         "y": 200,
         "wires": []
     }

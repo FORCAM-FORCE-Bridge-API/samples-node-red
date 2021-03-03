@@ -19,7 +19,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1050,
+        "x": 990,
         "y": 320,
         "wires": []
     },
@@ -113,11 +113,11 @@
         "id": "b2378e3c.63305",
         "type": "json",
         "z": "639988f9.0266c",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 620,
+        "x": 580,
         "y": 180,
         "wires": [
             [
@@ -139,8 +139,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1050,
-        "y": 400,
+        "x": 1030,
+        "y": 420,
         "wires": [
             [
                 "27aef4db.bf0f9c"
@@ -156,27 +156,28 @@
         "tosidebar": true,
         "console": true,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1590,
-        "y": 400,
+        "x": 1310,
+        "y": 500,
         "wires": []
     },
     {
         "id": "27aef4db.bf0f9c",
         "type": "json",
         "z": "639988f9.0266c",
-        "name": "jsonString state of workplace",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1340,
-        "y": 400,
+        "x": 1060,
+        "y": 500,
         "wires": [
             [
-                "5d178157.35f6"
+                "5d178157.35f6",
+                "853d4a71.1aa438"
             ]
         ]
     },
@@ -188,6 +189,41 @@
         "info": "",
         "x": 1060,
         "y": 260,
+        "wires": []
+    },
+    {
+        "id": "853d4a71.1aa438",
+        "type": "function",
+        "z": "639988f9.0266c",
+        "name": "Extract workplace & operating state from response",
+        "func": "msg.payload = \"Workplace \" + msg.payload._embedded.workplaces[0].properties.number + \" is in state: \" + msg.payload._embedded.workplaces[0].properties.operatingState.description;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1270,
+        "y": 600,
+        "wires": [
+            [
+                "879a15a6.fa3508"
+            ]
+        ]
+    },
+    {
+        "id": "879a15a6.fa3508",
+        "type": "debug",
+        "z": "639988f9.0266c",
+        "name": "Write Workplace & State to Debug-Console",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1670,
+        "y": 600,
         "wires": []
     }
 ]

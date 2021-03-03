@@ -1,15 +1,15 @@
 [
     {
-        "id": "5e33bcef.6d9a94",
+        "id": "5538ad57.d2dd04",
         "type": "tab",
         "label": "GetTokenFlow",
         "disabled": false,
         "info": "A sample how to get an access token from our BridgeAPI"
     },
     {
-        "id": "b2324cbd.35475",
+        "id": "2b1f6fe3.9ca2",
         "type": "http request",
-        "z": "5e33bcef.6d9a94",
+        "z": "5538ad57.d2dd04",
         "name": "HTTP GET acces token",
         "method": "GET",
         "ret": "txt",
@@ -23,14 +23,14 @@
         "y": 60,
         "wires": [
             [
-                "6783072.c950378"
+                "c517c5d7.580da"
             ]
         ]
     },
     {
-        "id": "53d95a7b.d1d364",
+        "id": "3483981.80e8868",
         "type": "inject",
-        "z": "5e33bcef.6d9a94",
+        "z": "5538ad57.d2dd04",
         "name": "Execute flow",
         "props": [
             {
@@ -52,14 +52,14 @@
         "y": 60,
         "wires": [
             [
-                "b2324cbd.35475"
+                "2b1f6fe3.9ca2"
             ]
         ]
     },
     {
-        "id": "6783072.c950378",
+        "id": "e84ff7b1.29a1a",
         "type": "debug",
-        "z": "5e33bcef.6d9a94",
+        "z": "5538ad57.d2dd04",
         "name": "Log response",
         "active": true,
         "tosidebar": true,
@@ -69,8 +69,24 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 660,
+        "x": 970,
         "y": 60,
         "wires": []
+    },
+    {
+        "id": "c517c5d7.580da",
+        "type": "json",
+        "z": "5538ad57.d2dd04",
+        "name": "JSON Converter",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 690,
+        "y": 60,
+        "wires": [
+            [
+                "e84ff7b1.29a1a"
+            ]
+        ]
     }
 ]

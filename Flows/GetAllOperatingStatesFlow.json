@@ -86,7 +86,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 920,
+        "x": 820,
         "y": 140,
         "wires": []
     },
@@ -113,11 +113,11 @@
         "id": "d3a8dacd.52e8d8",
         "type": "json",
         "z": "6d2e7c0a.f31074",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 620,
+        "x": 580,
         "y": 140,
         "wires": [
             [
@@ -160,7 +160,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1610,
+        "x": 1710,
         "y": 360,
         "wires": []
     },
@@ -168,15 +168,15 @@
         "id": "a3de7553.06c3e",
         "type": "json",
         "z": "6d2e7c0a.f31074",
-        "name": "jsonString of all operating states",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1360,
+        "x": 1300,
         "y": 360,
         "wires": [
             [
-                "6b7bac64.252cc4"
+                "6dbcceec.3b222"
             ]
         ]
     },
@@ -189,5 +189,23 @@
         "x": 1060,
         "y": 220,
         "wires": []
+    },
+    {
+        "id": "6dbcceec.3b222",
+        "type": "function",
+        "z": "6d2e7c0a.f31074",
+        "name": "",
+        "func": "msg.payload = msg.payload._embedded.operatingStates;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1500,
+        "y": 360,
+        "wires": [
+            [
+                "6b7bac64.252cc4"
+            ]
+        ]
     }
 ]
