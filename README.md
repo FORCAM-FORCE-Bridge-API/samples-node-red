@@ -13,7 +13,13 @@ If you have any questions look at https://forcebridge.io/en/qa-portal/
 ###### Framework & Tools
 
 * Node-Red Tool (https://nodered.org/#get-started)
-* Dashboard ( (1) Go to Hamburger-Menu (2) Manage palette (3) Tab "Install" (4) Search after "Node-Red-Dashboard" (5) Click install)
+* Dashboard 
+    - Steps for installing
+    1) Go to Hamburger-Menu 
+    2) Manage palette 
+    3) Tab "Install" 
+    4) Search after "Node-Red-Dashboard" 
+    5) Click install
 
 ![Image](assets/Node-Red-Dashboard-install.png)
 
