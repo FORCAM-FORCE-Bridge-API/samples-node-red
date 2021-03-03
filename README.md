@@ -7,22 +7,37 @@ If you have any questions look at https://forcebridge.io/en/qa-portal/
 * Website: https://www.forcebridge.io/ | https://www.forcam.com/
 * Documentation: https://forcebridge.io/en/developers/
 * API Definition: https://app.swaggerhub.com/apis-docs/FORCAM/FORCEBridgeAPI/
+
 ### Usage / Requirements
+
+###### Framework & Tool
+
+* Node-Red Tool (https://nodered.org/#get-started)
+* Dashboard (Go to Hamburger-Menu -> Manage palette -> Tab "Install" -> Search after "Node-Red-Dashboard" -> click install)
+
+![Image](assets/Node-Red-Dashboard-install.png)
 
 ###### Access to a FORCAM FORCE Bridge API System
 
 _If you need access to a demo system please contact forcebridge@forcam.com._
 
-Please add your URL, user and password of your Bridge API instance to the variables below (contained by all samples).
+Please add your URL to the Node "HTTP GET access token", and replace the Username and Password (in the picture marked as "GitHub" ) with your user and password of your Bridge API instance (contained by all sample-flows).
 
 ```Javascript
 
-"https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=" + Username +"&client_secret="+ Password + "&grant_type=client_credentials&scope=read%20write"
+"https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=" + Username + "&client_secret=" + Password + "&grant_type=client_credentials&scope=read%20write"
 ```
+![Image](assets/Get-Acess-Token.png)
 
-###### Framework & Tool
+### How to Import sample-flows
 
-* Node-Red Tool (https://nodered.org/#get-started)
+1. Clone Repository or download files
+2. Open Node-Red
+3. Open Hamburger-Menu
+4. Click on Import
+5. Press Button "select a file to import"
+6. Choose your flow to import
+7. Deploy the flow and execute
 
 ### Description of the sample applications:
 
