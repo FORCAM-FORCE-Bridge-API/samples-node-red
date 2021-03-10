@@ -575,7 +575,7 @@
         "seg1": "",
         "seg2": "",
         "x": 1780,
-        "y": 1360,
+        "y": 1340,
         "wires": []
     },
     {
@@ -797,9 +797,9 @@
         "min": 0,
         "max": "100",
         "colors": [
-            "#00b500",
+            "#ff0000",
             "#e6e600",
-            "#ca3838"
+            "#00ff00"
         ],
         "seg1": "",
         "seg2": "",
@@ -980,7 +980,7 @@
         "type": "function",
         "z": "5e33bcef.6d9a94",
         "name": "",
-        "func": "\nvar data = msg.payload.properties.totalQuantity;\nmsg = {payload:data,topic:\"Soil\"};\nreturn msg;\n",
+        "func": "\nvar data = msg.payload.properties.totalQuantity;\nflow.set('currentQuantity',msg.payload.properties.totalQuantity)\nmsg = {payload:data,topic:\"Soil\"};\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1157,7 +1157,8 @@
         "wires": [
             [
                 "fd1d93f.cc9cb7",
-                "43563c1b.a98084"
+                "43563c1b.a98084",
+                "34536702.7647d"
             ]
         ]
     },
@@ -1171,7 +1172,7 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1550,
+        "x": 1540,
         "y": 2160,
         "wires": [
             [
@@ -1257,14 +1258,14 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "30",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "{}",
         "payloadType": "json",
-        "x": 190,
+        "x": 200,
         "y": 1380,
         "wires": [
             [
@@ -1394,7 +1395,7 @@
         "type": "function",
         "z": "5e33bcef.6d9a94",
         "name": "",
-        "func": "msg.payload.properties.targetSetupTime = (msg.payload.properties.targetSetupTime/60000).toFixed(0)+ \":\"+ (msg.payload.properties.targetSetupTime%60000) + \"0 min\"\nmsg.payload.properties.targetProcessingTime = (msg.payload.properties.targetProcessingTime/60000).toFixed(0) + \":\"+ (msg.payload.properties.targetProcessingTime%60000) + \"0 min\"\nmsg.payload.properties.targetTimePerUnit = (msg.payload.properties.targetTimePerUnit/60000).toFixed(0)+ \":\"+ (msg.payload.properties.targetTimePerUnit%60000) + \"0 min\"\n\nreturn msg;",
+        "func": "var setupHours = Math.floor((msg.payload.properties.targetSetupTime / 3600000)%24).toFixed(0)\nvar setupMinutes = Math.floor((msg.payload.properties.targetSetupTime/(1000 * 60)) % 60).toFixed(0)\nvar setupSeconds = Math.floor((msg.payload.properties.targetSetupTime/1000)%60).toFixed(0)\n\nsetupHours = (setupHours < 10) ? \"0\" + setupHours : setupHours;\nsetupMinutes = (setupMinutes < 10) ? \"0\" + setupMinutes : setupMinutes;\nsetupSeconds = (setupSeconds < 10) ? \"0\" + setupSeconds : setupSeconds;\n\n\nvar processHours = Math.floor((msg.payload.properties.targetProcessingTime / 3600000)%24).toFixed(0)\nvar processMinutes = Math.floor((msg.payload.properties.targetProcessingTime/(1000 * 60)) % 60).toFixed(0)\nvar processSeconds = Math.floor((msg.payload.properties.targetProcessingTime/1000)%60).toFixed(0)\n\nprocessHours = (processHours < 10) ? \"0\" + processHours : processHours;\nprocessMinutes = (processMinutes < 10) ? \"0\" + processMinutes : processMinutes;\nprocessSeconds = (processSeconds < 10) ? \"0\" + processSeconds : processSeconds;\n\n\nvar unitHours = Math.floor((msg.payload.properties.targetTimePerUnit / 3600000)%24).toFixed(0)\nvar unitMinutes = Math.floor((msg.payload.properties.targetTimePerUnit/(1000 * 60)) % 60).toFixed(0)\nvar unitSeconds = Math.floor((msg.payload.properties.targetTimePerUnit/1000)%60).toFixed(0)\n\nunitHours = (unitHours < 10) ? \"0\" + unitHours : unitHours;\nunitMinutes = (unitMinutes < 10) ? \"0\" + unitMinutes : unitMinutes;\nunitSeconds = (unitSeconds < 10) ? \"0\" + unitSeconds : unitSeconds;\n\n\n\n\n\n\nmsg.payload.properties.targetSetupTime = setupHours+ \":\"+ setupMinutes+\":\"+setupSeconds\nmsg.payload.properties.targetProcessingTime = processHours+ \":\"+ processMinutes+\":\"+processSeconds\nmsg.payload.properties.targetTimePerUnit = unitHours+ \":\"+ unitMinutes+\":\"+unitSeconds\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1448,7 +1449,7 @@
         "type": "ui_text",
         "z": "5e33bcef.6d9a94",
         "group": "1641d680.41981a",
-        "order": 2,
+        "order": 3,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1464,7 +1465,7 @@
         "type": "ui_text",
         "z": "5e33bcef.6d9a94",
         "group": "1641d680.41981a",
-        "order": 3,
+        "order": 5,
         "width": 0,
         "height": 0,
         "name": "",
@@ -1493,7 +1494,7 @@
         "colors": [
             "#ff0000",
             "#e6e600",
-            "#00aa00"
+            "#00ff00"
         ],
         "seg1": "",
         "seg2": "",
@@ -1673,23 +1674,22 @@
         "type": "function",
         "z": "5e33bcef.6d9a94",
         "name": "",
-        "func": "msg.payload.properties.executionTime = (msg.payload.properties.executionTime/60000).toFixed(0) +\":\"+msg.payload.properties.executionTime%60+\" min\"\nmsg.payload.properties.processingTime = (msg.payload.properties.processingTime/60000).toFixed(0) +\":\"+msg.payload.properties.processingTime%60+\" min\"\nmsg.payload.properties.setupTime = (msg.payload.properties.setupTime/60000).toFixed(0) +\":\"+msg.payload.properties.setupTime%60+\" min\"\nreturn msg;",
+        "func": "var setupHours = Math.floor((msg.payload.properties.setupTime / 3600000)%24).toFixed(0)\nvar setupMinutes = Math.floor((msg.payload.properties.setupTime/(1000 * 60)) % 60).toFixed(0)\nvar setupSeconds = Math.floor((msg.payload.properties.setupTime/1000)%60).toFixed(0)\n\nsetupHours = (setupHours < 10) ? \"0\" + setupHours : setupHours;\nsetupMinutes = (setupMinutes < 10) ? \"0\" + setupMinutes : setupMinutes;\nsetupSeconds = (setupSeconds < 10) ? \"0\" + setupSeconds : setupSeconds;\n\nvar processHours = Math.floor((msg.payload.properties.processingTime / 3600000)%24).toFixed(0)\nvar processMinutes = Math.floor((msg.payload.properties.processingTime/(1000 * 60)) % 60).toFixed(0)\nvar processSeconds = Math.floor((msg.payload.properties.processingTime/1000)%60).toFixed(0)\n\nprocessHours = (processHours < 10) ? \"0\" + processHours : processHours;\nprocessMinutes = (processMinutes < 10) ? \"0\" + processMinutes : processMinutes;\nprocessSeconds = (processSeconds < 10) ? \"0\" + processSeconds : processSeconds;\n\n\nmsg.payload.properties.setupTime = setupHours+ \":\"+ setupMinutes+\":\"+setupSeconds\nmsg.payload.properties.processingTime = processHours+ \":\"+ processMinutes+\":\"+processSeconds\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1550,
-        "y": 3560,
+        "x": 1540,
+        "y": 3540,
         "wires": [
             [
-                "7f430a32.8169e4",
                 "4a2b654c.daa64c",
                 "d3e35bd3.57956"
             ]
         ]
     },
     {
-        "id": "7f430a32.8169e4",
+        "id": "4a2b654c.daa64c",
         "type": "ui_text",
         "z": "5e33bcef.6d9a94",
         "group": "1641d680.41981a",
@@ -1697,26 +1697,10 @@
         "width": 0,
         "height": 0,
         "name": "",
-        "label": "Execution time",
-        "format": "{{msg.payload.properties.executionTime}}",
-        "layout": "row-spread",
-        "x": 1750,
-        "y": 3620,
-        "wires": []
-    },
-    {
-        "id": "4a2b654c.daa64c",
-        "type": "ui_text",
-        "z": "5e33bcef.6d9a94",
-        "group": "1641d680.41981a",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "Processing time",
+        "label": "Current processing time",
         "format": "{{msg.payload.properties.processingTime}}",
         "layout": "row-spread",
-        "x": 1520,
+        "x": 1550,
         "y": 3660,
         "wires": []
     },
@@ -2051,14 +2035,14 @@
         "type": "ui_text",
         "z": "5e33bcef.6d9a94",
         "group": "1641d680.41981a",
-        "order": 6,
+        "order": 2,
         "width": 0,
         "height": 0,
         "name": "",
-        "label": "Setup time",
+        "label": "Current setup time",
         "format": "{{msg.payload.properties.setupTime}}",
         "layout": "row-spread",
-        "x": 1730,
+        "x": 1790,
         "y": 3680,
         "wires": []
     },
@@ -2115,6 +2099,57 @@
         ]
     },
     {
+        "id": "7961e0c9.5632f8",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current Time per unit",
+        "format": "{{msg.payload.properties.timePerUnit}}",
+        "layout": "row-spread",
+        "x": 1340,
+        "y": 2300,
+        "wires": []
+    },
+    {
+        "id": "34536702.7647d",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var unitHours = Math.floor((msg.payload.properties.timePerUnit / 3600000)%24).toFixed(0)\nvar unitMinutes = Math.floor((msg.payload.properties.timePerUnit/(1000 * 60)) % 60).toFixed(0)\nvar unitSeconds = Math.floor((msg.payload.properties.timePerUnit/1000)%60).toFixed(0)\n\nunitHours = (unitHours < 10) ? \"0\" + unitHours : unitHours;\nunitMinutes = (unitMinutes < 10) ? \"0\" + unitMinutes : unitMinutes;\nunitSeconds = (unitSeconds < 10) ? \"0\" + unitSeconds : unitSeconds;\n\nmsg.payload.properties.timePerUnit = unitHours+ \":\"+ unitMinutes+\":\"+unitSeconds\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1310,
+        "y": 2200,
+        "wires": [
+            [
+                "7961e0c9.5632f8",
+                "2909748a.75dc9c"
+            ]
+        ]
+    },
+    {
+        "id": "2909748a.75dc9c",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1540,
+        "y": 2280,
+        "wires": []
+    },
+    {
         "id": "b1f48b8c.010f3",
         "type": "ui_group",
         "name": "Workplace",
@@ -2167,7 +2202,7 @@
     {
         "id": "b300a024.1aa2a",
         "type": "ui_tab",
-        "name": "GetTokenFlow",
+        "name": "Dashboard for a workplace",
         "icon": "dashboard",
         "disabled": false,
         "hidden": false
