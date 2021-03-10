@@ -1,0 +1,2175 @@
+[
+    {
+        "id": "5e33bcef.6d9a94",
+        "type": "tab",
+        "label": "DashboardForOneWorkplaceFlow",
+        "disabled": false,
+        "info": "A sample how to create a Dashboard with BridgeAPI"
+    },
+    {
+        "id": "67c9b0b7.e480c",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log request",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "762f8c55.1c7b74",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 40,
+        "wires": [
+            [
+                "1fb95b2f.0cd575"
+            ]
+        ]
+    },
+    {
+        "id": "a46c8b52.f39d18",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 120,
+        "y": 40,
+        "wires": [
+            [
+                "762f8c55.1c7b74"
+            ]
+        ]
+    },
+    {
+        "id": "d4265208.aea84",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "f72cbc71.b130c8",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "Add HTTP headers and prepare next HTTP-request",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar id = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces/\" + id;\n\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 720,
+        "y": 180,
+        "wires": [
+            [
+                "67c9b0b7.e480c",
+                "30006e52.25cc12"
+            ]
+        ]
+    },
+    {
+        "id": "1fb95b2f.0cd575",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "JSON Converter",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 580,
+        "y": 40,
+        "wires": [
+            [
+                "f72cbc71.b130c8",
+                "d4265208.aea84"
+            ]
+        ]
+    },
+    {
+        "id": "30006e52.25cc12",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute HTTP GET request workplace",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1000,
+        "y": 260,
+        "wires": [
+            [
+                "134ef7eb.6299e8"
+            ]
+        ]
+    },
+    {
+        "id": "9c134bb5.8f19d8",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1610,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "134ef7eb.6299e8",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "JSON Converter",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1280,
+        "y": 260,
+        "wires": [
+            [
+                "c0a1e045.696cb8",
+                "9c134bb5.8f19d8"
+            ]
+        ]
+    },
+    {
+        "id": "851c5062.032a5",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get all workplaces",
+        "info": "",
+        "x": 1050,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "5fea1f6e.33d65",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "b1f48b8c.010f3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Workplace Id",
+        "format": "{{msg.id}}",
+        "layout": "row-spread",
+        "x": 1540,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c0a1e045.696cb8",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var workplace = msg.payload.properties\n\n\n\nreturn workplace;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1460,
+        "y": 340,
+        "wires": [
+            [
+                "5fea1f6e.33d65",
+                "9c134bb5.8f19d8",
+                "b9fca4a6.f15f28",
+                "493c1904.dd8df8",
+                "a1b921cf.55fff8"
+            ]
+        ]
+    },
+    {
+        "id": "b9fca4a6.f15f28",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "b1f48b8c.010f3",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Workplacenumber",
+        "format": "{{msg.number}}",
+        "layout": "row-spread",
+        "x": 1300,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "493c1904.dd8df8",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "b1f48b8c.010f3",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Description",
+        "format": "{{msg.description}}",
+        "layout": "row-spread",
+        "x": 1870,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "a1b921cf.55fff8",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "b1f48b8c.010f3",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Operatingstate Description",
+        "format": "{{msg.operatingState.description}}",
+        "layout": "row-spread",
+        "x": 1780,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "4142fb0f.3b79fc",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log request",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1070,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "7a64f7d6.44ba88",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 640,
+        "wires": [
+            [
+                "c11e947b.fa4a3"
+            ]
+        ]
+    },
+    {
+        "id": "c0edc8ff.396c18",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 640,
+        "wires": [
+            [
+                "7a64f7d6.44ba88"
+            ]
+        ]
+    },
+    {
+        "id": "56f00003.d534f",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "17a8343e.f1176c",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "Add HTTP headers",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nworkplaceId = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations?isInProgress=true&limit=100&paginationDirection=NEXT&workplaceId=\" + workplaceId ;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 790,
+        "y": 780,
+        "wires": [
+            [
+                "4142fb0f.3b79fc",
+                "c38443c.a54c34"
+            ]
+        ]
+    },
+    {
+        "id": "c11e947b.fa4a3",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 640,
+        "y": 640,
+        "wires": [
+            [
+                "17a8343e.f1176c",
+                "56f00003.d534f"
+            ]
+        ]
+    },
+    {
+        "id": "c38443c.a54c34",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET request state of workplace",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1070,
+        "y": 860,
+        "wires": [
+            [
+                "de363fdf.0b56c"
+            ]
+        ]
+    },
+    {
+        "id": "6a9ac1a.04d92c",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "de363fdf.0b56c",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString state of workplace",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1390,
+        "y": 860,
+        "wires": [
+            [
+                "6a9ac1a.04d92c",
+                "41d7717b.59794"
+            ]
+        ]
+    },
+    {
+        "id": "bb13522.7795e3",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1080,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "41d7717b.59794",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "\nflow.set('operationId',msg.payload._embedded.operations[0].properties.id);\nflow.set('startDateof',msg.payload._embedded.operations[0].properties.startDate);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1600,
+        "y": 960,
+        "wires": [
+            [
+                "7b3e1924.8067b",
+                "9bd20ddb.720c68",
+                "4cc70fc2.e120d8",
+                "2bd43fcd.ffd5f8",
+                "54a0fd1e.121db4",
+                "a87ed857.72ec5",
+                "1b24847c.91c824",
+                "b45bca3a.37bc48",
+                "34a740a7.24ff5"
+            ]
+        ]
+    },
+    {
+        "id": "7b3e1924.8067b",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Operation Id",
+        "format": "{{msg.payload._embedded.operations[0].properties.id}}",
+        "layout": "row-spread",
+        "x": 1800,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "9bd20ddb.720c68",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Operationphase",
+        "format": "{{msg.payload._embedded.operations[0].properties.operationPhaseId}}",
+        "layout": "row-spread",
+        "x": 1790,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "4cc70fc2.e120d8",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Start date",
+        "format": "{{msg.payload._embedded.operations[0].properties.startDate}}",
+        "layout": "row-spread",
+        "x": 1950,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "2bd43fcd.ffd5f8",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Material",
+        "format": "{{msg.payload._embedded.operations[0].properties.material.number}}",
+        "layout": "row-spread",
+        "x": 1890,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "3fd5b878.9c6b08",
+        "type": "ui_gauge",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "group": "e35c389d.2d983",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Current produced quantity",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "10",
+        "colors": [
+            "#ff0000",
+            "#e6e600",
+            "#00ff00"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1780,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "e28ba56a.756f28",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log request",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 2460,
+        "wires": []
+    },
+    {
+        "id": "3c8c3aeb.3850b6",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 2320,
+        "wires": [
+            [
+                "2dbb857d.4f0512"
+            ]
+        ]
+    },
+    {
+        "id": "a306f517.474638",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 120,
+        "y": 2320,
+        "wires": [
+            [
+                "3c8c3aeb.3850b6"
+            ]
+        ]
+    },
+    {
+        "id": "ade14b84.de74e8",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 2320,
+        "wires": []
+    },
+    {
+        "id": "995ea8fd.56ae2",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "Add HTTP headers",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nvar startDateof = flow.get('startDateof')\n\nvar  t = startDateof.replace(\":\", \"%3A\");\nvar sD = t.replace(\"+\", \"%2B\");\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/reports/overallEquipmentEfficiency?startDate=\"+sD;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 770,
+        "y": 2460,
+        "wires": [
+            [
+                "e28ba56a.756f28",
+                "ffb317cb.2055c8"
+            ]
+        ]
+    },
+    {
+        "id": "2dbb857d.4f0512",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 620,
+        "y": 2320,
+        "wires": [
+            [
+                "ade14b84.de74e8",
+                "995ea8fd.56ae2"
+            ]
+        ]
+    },
+    {
+        "id": "ffb317cb.2055c8",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET request state of workplace",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1050,
+        "y": 2540,
+        "wires": [
+            [
+                "f733ee7a.076b1"
+            ]
+        ]
+    },
+    {
+        "id": "18506856.aad41",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1690,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "f733ee7a.076b1",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString state of workplace",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1370,
+        "y": 2640,
+        "wires": [
+            [
+                "f57bf7fd.c25728",
+                "18506856.aad41"
+            ]
+        ]
+    },
+    {
+        "id": "abc70b68.4962f",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1060,
+        "y": 2400,
+        "wires": []
+    },
+    {
+        "id": "f57bf7fd.c25728",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "\n\nmsg.payload.properties.oee = ((msg.payload.properties.oee*100).toFixed(2)) + \"%\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1580,
+        "y": 2640,
+        "wires": [
+            [
+                "22ca1b6f.0e155c"
+            ]
+        ]
+    },
+    {
+        "id": "22ca1b6f.0e155c",
+        "type": "ui_gauge",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "group": "f254b664.642578",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "OEE",
+        "label": "",
+        "format": "{{msg.payload.properties.oee}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1750,
+        "y": 2740,
+        "wires": []
+    },
+    {
+        "id": "9e19acec.e6979",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 1060,
+        "wires": [
+            [
+                "793f8083.6857c"
+            ]
+        ]
+    },
+    {
+        "id": "3e2fc483.7c01bc",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 1060,
+        "wires": [
+            [
+                "9e19acec.e6979"
+            ]
+        ]
+    },
+    {
+        "id": "25516aff.5b77be",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "793f8083.6857c",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 640,
+        "y": 1060,
+        "wires": [
+            [
+                "25516aff.5b77be",
+                "ea34be32.fdd4e8"
+            ]
+        ]
+    },
+    {
+        "id": "da7dc5e9.92e21",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1080,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "ea34be32.fdd4e8",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/quantitySummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 880,
+        "y": 1240,
+        "wires": [
+            [
+                "f632bef1.e33608"
+            ]
+        ]
+    },
+    {
+        "id": "f632bef1.e33608",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1170,
+        "y": 1240,
+        "wires": [
+            [
+                "2e998674.cad6fa"
+            ]
+        ]
+    },
+    {
+        "id": "e5cd5db7.e52b4",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1690,
+        "y": 1240,
+        "wires": []
+    },
+    {
+        "id": "2e998674.cad6fa",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1430,
+        "y": 1240,
+        "wires": [
+            [
+                "e5cd5db7.e52b4",
+                "8850baf9.277a58",
+                "6ffa4cd2.9f2404"
+            ]
+        ]
+    },
+    {
+        "id": "8850baf9.277a58",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "\nvar data = msg.payload.properties.totalQuantity;\nmsg = {payload:data,topic:\"Soil\"};\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1520,
+        "y": 1360,
+        "wires": [
+            [
+                "3fd5b878.9c6b08",
+                "dac5b9d.e5ffbc8"
+            ]
+        ]
+    },
+    {
+        "id": "f0715e6c.c25a78",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 1920,
+        "wires": [
+            [
+                "a57c2f04.c51c48"
+            ]
+        ]
+    },
+    {
+        "id": "1f9a5d99.9dd7e2",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 1920,
+        "wires": [
+            [
+                "f0715e6c.c25a78"
+            ]
+        ]
+    },
+    {
+        "id": "7b4300f6.aca318",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 1920,
+        "wires": []
+    },
+    {
+        "id": "a57c2f04.c51c48",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 640,
+        "y": 1920,
+        "wires": [
+            [
+                "7b4300f6.aca318",
+                "a1d57a76.7e91e8"
+            ]
+        ]
+    },
+    {
+        "id": "ae097bf7.e01ec8",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1080,
+        "y": 2000,
+        "wires": []
+    },
+    {
+        "id": "a1d57a76.7e91e8",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/quantitySummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 880,
+        "y": 2100,
+        "wires": [
+            [
+                "ed55599b.61b53"
+            ]
+        ]
+    },
+    {
+        "id": "ed55599b.61b53",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1170,
+        "y": 2100,
+        "wires": [
+            [
+                "f2ef0c72.84e52"
+            ]
+        ]
+    },
+    {
+        "id": "fd1d93f.cc9cb7",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1750,
+        "y": 2060,
+        "wires": []
+    },
+    {
+        "id": "f2ef0c72.84e52",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1490,
+        "y": 2060,
+        "wires": [
+            [
+                "fd1d93f.cc9cb7",
+                "43563c1b.a98084"
+            ]
+        ]
+    },
+    {
+        "id": "43563c1b.a98084",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "\nif (msg.payload.properties.totalQuantity == 0){\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [0,\n    0,\n    0,\n    0],\n    \"labels\": [ \"yield\", \"scrap\", \"rework\", \"uncategorized\" ]\n}];\n}\nelse{\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [msg.payload.properties.elements[0].quantities.yield,\n    msg.payload.properties.elements[0].quantities.scrap,\n    msg.payload.properties.elements[0].quantities.rework,\n    msg.payload.properties.elements[0].quantities.uncategorized],\n    \"labels\": [ \"yield\", \"scrap\", \"rework\", \"uncategorized\" ]\n}];\n}\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1550,
+        "y": 2160,
+        "wires": [
+            [
+                "d1bca088.b0741"
+            ]
+        ]
+    },
+    {
+        "id": "d1bca088.b0741",
+        "type": "ui_chart",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "group": "e35c389d.2d983",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Total quantities categorized",
+        "chartType": "bar",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "10",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#00aa00",
+            "#fd0000",
+            "#ff7f0e",
+            "#0080ff",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1780,
+        "y": 2220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f67323c7.e7e34",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 430,
+        "y": 1380,
+        "wires": [
+            [
+                "b022f87e.b0eca"
+            ]
+        ]
+    },
+    {
+        "id": "98ed2b91.7d3238",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 190,
+        "y": 1380,
+        "wires": [
+            [
+                "f67323c7.e7e34"
+            ]
+        ]
+    },
+    {
+        "id": "8767bcc8.d3aff",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "b022f87e.b0eca",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 700,
+        "y": 1380,
+        "wires": [
+            [
+                "8767bcc8.d3aff",
+                "cf5eb1d5.1a8f2"
+            ]
+        ]
+    },
+    {
+        "id": "41fe000d.a2d118",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1140,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "cf5eb1d5.1a8f2",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/specification\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 940,
+        "y": 1560,
+        "wires": [
+            [
+                "8876f606.d8adb"
+            ]
+        ]
+    },
+    {
+        "id": "8876f606.d8adb",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1230,
+        "y": 1560,
+        "wires": [
+            [
+                "5a46cdac.530e6c"
+            ]
+        ]
+    },
+    {
+        "id": "e0f78781.ab59e8",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1750,
+        "y": 1560,
+        "wires": []
+    },
+    {
+        "id": "5a46cdac.530e6c",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1490,
+        "y": 1560,
+        "wires": [
+            [
+                "e0f78781.ab59e8",
+                "b787c183.5f228"
+            ]
+        ]
+    },
+    {
+        "id": "b787c183.5f228",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "msg.payload.properties.targetSetupTime = (msg.payload.properties.targetSetupTime/60000).toFixed(0)+ \":\"+ (msg.payload.properties.targetSetupTime%60000) + \"0 min\"\nmsg.payload.properties.targetProcessingTime = (msg.payload.properties.targetProcessingTime/60000).toFixed(0) + \":\"+ (msg.payload.properties.targetProcessingTime%60000) + \"0 min\"\nmsg.payload.properties.targetTimePerUnit = (msg.payload.properties.targetTimePerUnit/60000).toFixed(0)+ \":\"+ (msg.payload.properties.targetTimePerUnit%60000) + \"0 min\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1580,
+        "y": 1660,
+        "wires": [
+            [
+                "826d59d6.a0763",
+                "8efe5f3b.0d3f38",
+                "a0ab1c9b.79ec08",
+                "a9ae5c45.51d13",
+                "1a4a57b0.7fb878"
+            ]
+        ]
+    },
+    {
+        "id": "826d59d6.a0763",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "e35c389d.2d983",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Target quantity",
+        "format": "{{msg.payload.properties.targetQuantity}}",
+        "layout": "row-spread",
+        "x": 1810,
+        "y": 1680,
+        "wires": []
+    },
+    {
+        "id": "8efe5f3b.0d3f38",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Target setup time",
+        "format": "{{msg.payload.properties.targetSetupTime}}",
+        "layout": "row-spread",
+        "x": 1770,
+        "y": 1760,
+        "wires": []
+    },
+    {
+        "id": "a0ab1c9b.79ec08",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Target processing time",
+        "format": "{{msg.payload.properties.targetProcessingTime}}",
+        "layout": "row-spread",
+        "x": 1580,
+        "y": 1780,
+        "wires": []
+    },
+    {
+        "id": "a9ae5c45.51d13",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Target time per unit",
+        "format": "{{msg.payload.properties.targetTimePerUnit}}",
+        "layout": "row-spread",
+        "x": 1360,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "7a1f1208.3f36d4",
+        "type": "ui_gauge",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "group": "e35c389d.2d983",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Quality rate",
+        "label": "",
+        "format": "{{msg.payload.properties.qualityRate}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ff0000",
+            "#e6e600",
+            "#00aa00"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1790,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "e1cebea1.29233",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 370,
+        "y": 3320,
+        "wires": [
+            [
+                "6e7f7654.d1c4c8"
+            ]
+        ]
+    },
+    {
+        "id": "ff17dbc8.8b002",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 3320,
+        "wires": [
+            [
+                "e1cebea1.29233"
+            ]
+        ]
+    },
+    {
+        "id": "cc068bc5.6f98b8",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 3320,
+        "wires": []
+    },
+    {
+        "id": "6e7f7654.d1c4c8",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 640,
+        "y": 3320,
+        "wires": [
+            [
+                "cc068bc5.6f98b8",
+                "63243d6b.6a09a4"
+            ]
+        ]
+    },
+    {
+        "id": "fd66efd6.4a121",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1080,
+        "y": 3400,
+        "wires": []
+    },
+    {
+        "id": "63243d6b.6a09a4",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/operatingStateSummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 880,
+        "y": 3500,
+        "wires": [
+            [
+                "8f0fbf0c.84d108"
+            ]
+        ]
+    },
+    {
+        "id": "8f0fbf0c.84d108",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1170,
+        "y": 3500,
+        "wires": [
+            [
+                "c6f16f39.154e2"
+            ]
+        ]
+    },
+    {
+        "id": "d7c40fac.1fa8b",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1750,
+        "y": 3460,
+        "wires": []
+    },
+    {
+        "id": "c6f16f39.154e2",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1490,
+        "y": 3460,
+        "wires": [
+            [
+                "d7c40fac.1fa8b",
+                "a30a48cd.e08c38"
+            ]
+        ]
+    },
+    {
+        "id": "a30a48cd.e08c38",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "msg.payload.properties.executionTime = (msg.payload.properties.executionTime/60000).toFixed(0) +\":\"+msg.payload.properties.executionTime%60+\" min\"\nmsg.payload.properties.processingTime = (msg.payload.properties.processingTime/60000).toFixed(0) +\":\"+msg.payload.properties.processingTime%60+\" min\"\nmsg.payload.properties.setupTime = (msg.payload.properties.setupTime/60000).toFixed(0) +\":\"+msg.payload.properties.setupTime%60+\" min\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1550,
+        "y": 3560,
+        "wires": [
+            [
+                "7f430a32.8169e4",
+                "4a2b654c.daa64c",
+                "d3e35bd3.57956"
+            ]
+        ]
+    },
+    {
+        "id": "7f430a32.8169e4",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Execution time",
+        "format": "{{msg.payload.properties.executionTime}}",
+        "layout": "row-spread",
+        "x": 1750,
+        "y": 3620,
+        "wires": []
+    },
+    {
+        "id": "4a2b654c.daa64c",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Processing time",
+        "format": "{{msg.payload.properties.processingTime}}",
+        "layout": "row-spread",
+        "x": 1520,
+        "y": 3660,
+        "wires": []
+    },
+    {
+        "id": "54a0fd1e.121db4",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Production Oorder Id",
+        "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.id}}",
+        "layout": "row-spread",
+        "x": 1560,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "a87ed857.72ec5",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Production Order Number",
+        "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.number}}",
+        "layout": "row-spread",
+        "x": 1610,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "1b24847c.91c824",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Production Order Description",
+        "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.description}}",
+        "layout": "row-spread",
+        "x": 1660,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "b45bca3a.37bc48",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Operation number",
+        "format": "{{msg.payload._embedded.operations[0].properties.number}}",
+        "layout": "row-spread",
+        "x": 1940,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "34a740a7.24ff5",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "6a3daf0d.275a28",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Operation description",
+        "format": "{{msg.payload._embedded.operations[0].properties.description}}",
+        "layout": "row-spread",
+        "x": 2010,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "35e01de7.db066a",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log request",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1050,
+        "y": 2920,
+        "wires": []
+    },
+    {
+        "id": "cfd6a147.775298",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET acces token",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://forcebridgehackathon.force.eco:25443/ffauth/oauth2.0/accessToken?client_id=GitHub&client_secret=GitHub&grant_type=client_credentials&scope=read%20write",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 350,
+        "y": 2780,
+        "wires": [
+            [
+                "984ff286.9f32f"
+            ]
+        ]
+    },
+    {
+        "id": "8434a67c.858fb",
+        "type": "inject",
+        "z": "5e33bcef.6d9a94",
+        "name": "Execute Flow",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "120",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 120,
+        "y": 2780,
+        "wires": [
+            [
+                "cfd6a147.775298"
+            ]
+        ]
+    },
+    {
+        "id": "1581f737.c31a21",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 2780,
+        "wires": []
+    },
+    {
+        "id": "544da4cb.a9d244",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "Add HTTP headers",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nvar startDateof = flow.get('startDateof')\n\nvar  t = startDateof.replace(\":\", \"%3A\");\nvar sD = t.replace(\"+\", \"%2B\");\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/reports/overallEquipmentEfficiency?startDate=\"+sD;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 770,
+        "y": 2920,
+        "wires": [
+            [
+                "35e01de7.db066a",
+                "ad499f4f.51cfb8"
+            ]
+        ]
+    },
+    {
+        "id": "984ff286.9f32f",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString of access Token",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 620,
+        "y": 2780,
+        "wires": [
+            [
+                "1581f737.c31a21",
+                "544da4cb.a9d244"
+            ]
+        ]
+    },
+    {
+        "id": "ad499f4f.51cfb8",
+        "type": "http request",
+        "z": "5e33bcef.6d9a94",
+        "name": "HTTP GET request state of workplace",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 1050,
+        "y": 3000,
+        "wires": [
+            [
+                "3e0f437c.69af9c"
+            ]
+        ]
+    },
+    {
+        "id": "53813f37.6ca71",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "Log response",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1690,
+        "y": 3000,
+        "wires": []
+    },
+    {
+        "id": "3e0f437c.69af9c",
+        "type": "json",
+        "z": "5e33bcef.6d9a94",
+        "name": "jsonString state of workplace",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 1350,
+        "y": 3000,
+        "wires": [
+            [
+                "69991364.dd05cc",
+                "53813f37.6ca71"
+            ]
+        ]
+    },
+    {
+        "id": "65c192eb.a77bfc",
+        "type": "comment",
+        "z": "5e33bcef.6d9a94",
+        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "info": "",
+        "x": 1060,
+        "y": 2860,
+        "wires": []
+    },
+    {
+        "id": "69991364.dd05cc",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var quality = msg.payload.properties.quality*100\nvar performance = msg.payload.properties.performance*100\nvar availability = msg.payload.properties.availability*100\n\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [quality, performance, availability],\n    \"labels\": [ \"quality\", \"performance\", \"availability\" ]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1640,
+        "y": 3120,
+        "wires": [
+            [
+                "6a4eb5c9.3b5e4c"
+            ]
+        ]
+    },
+    {
+        "id": "6a4eb5c9.3b5e4c",
+        "type": "ui_chart",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "group": "f254b664.642578",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "OEE factors in %",
+        "chartType": "bar",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 1870,
+        "y": 3120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d3e35bd3.57956",
+        "type": "ui_text",
+        "z": "5e33bcef.6d9a94",
+        "group": "1641d680.41981a",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Setup time",
+        "format": "{{msg.payload.properties.setupTime}}",
+        "layout": "row-spread",
+        "x": 1730,
+        "y": 3680,
+        "wires": []
+    },
+    {
+        "id": "6ffa4cd2.9f2404",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "msg.payload.properties.qualityRate = ((msg.payload.properties.qualityRate*100).toFixed(2)) + \"%\"\n\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1580,
+        "y": 1300,
+        "wires": [
+            [
+                "7a1f1208.3f36d4"
+            ]
+        ]
+    },
+    {
+        "id": "dac5b9d.e5ffbc8",
+        "type": "debug",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1710,
+        "y": 1440,
+        "wires": []
+    },
+    {
+        "id": "1a4a57b0.7fb878",
+        "type": "function",
+        "z": "5e33bcef.6d9a94",
+        "name": "",
+        "func": "var max = msg.payload.properties.targetQuantity;\n\nvar min = 0;\n\nmsg = {ui_control:{min:min,max:max},topic:\"Soil\"};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 1930,
+        "y": 1460,
+        "wires": [
+            [
+                "3fd5b878.9c6b08"
+            ]
+        ]
+    },
+    {
+        "id": "b1f48b8c.010f3",
+        "type": "ui_group",
+        "name": "Workplace",
+        "tab": "b300a024.1aa2a",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "6a3daf0d.275a28",
+        "type": "ui_group",
+        "name": "Current Operation of the workplace",
+        "tab": "b300a024.1aa2a",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "e35c389d.2d983",
+        "type": "ui_group",
+        "name": "Quantities of current operation",
+        "tab": "b300a024.1aa2a",
+        "order": 4,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "f254b664.642578",
+        "type": "ui_group",
+        "name": "Overall Equipment Effiiciency",
+        "tab": "b300a024.1aa2a",
+        "order": 5,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "1641d680.41981a",
+        "type": "ui_group",
+        "name": "Target and current times of operation",
+        "tab": "b300a024.1aa2a",
+        "order": 3,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "b300a024.1aa2a",
+        "type": "ui_tab",
+        "name": "GetTokenFlow",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
