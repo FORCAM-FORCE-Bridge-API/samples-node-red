@@ -77,14 +77,14 @@
         "id": "b438516c.8b6b88",
         "type": "function",
         "z": "6d2e7c0a.f31074",
-        "name": "Add HTTP headers and get all operating states",
+        "name": "Prepare get all operating states HTTP request",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/masterData/operatingStates\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "x": 640,
-        "y": 360,
+        "y": 280,
         "wires": [
             [
                 "d8c99464.940f2"
@@ -122,7 +122,7 @@
         "proxy": "",
         "authType": "",
         "x": 980,
-        "y": 360,
+        "y": 280,
         "wires": [
             [
                 "a3de7553.06c3e"
@@ -142,8 +142,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1750,
-        "y": 360,
+        "x": 1730,
+        "y": 280,
         "wires": []
     },
     {
@@ -155,7 +155,7 @@
         "action": "",
         "pretty": false,
         "x": 1230,
-        "y": 360,
+        "y": 280,
         "wires": [
             [
                 "6dbcceec.3b222"
@@ -168,8 +168,8 @@
         "z": "6d2e7c0a.f31074",
         "name": "...use access token in Header for HTTP Request to get all operating states",
         "info": "",
-        "x": 890,
-        "y": 240,
+        "x": 570,
+        "y": 320,
         "wires": []
     },
     {
@@ -182,8 +182,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1490,
-        "y": 360,
+        "x": 1470,
+        "y": 280,
         "wires": [
             [
                 "6b7bac64.252cc4"

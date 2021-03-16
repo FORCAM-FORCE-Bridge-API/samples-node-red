@@ -77,14 +77,14 @@
         "id": "dafae09d.7e85b8",
         "type": "function",
         "z": "3bcbab72.8f0214",
-        "name": "Add HTTP headers and URL of workplaces",
+        "name": "Prepare get all workplaces HTTP request",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 630,
-        "y": 340,
+        "x": 620,
+        "y": 300,
         "wires": [
             [
                 "deccd91e.818db8"
@@ -121,8 +121,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1000,
-        "y": 340,
+        "x": 1040,
+        "y": 300,
         "wires": [
             [
                 "37773ce7.76ecbc"
@@ -142,8 +142,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1530,
-        "y": 340,
+        "x": 1570,
+        "y": 300,
         "wires": []
     },
     {
@@ -154,8 +154,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1270,
-        "y": 340,
+        "x": 1330,
+        "y": 300,
         "wires": [
             [
                 "3bf91fab.9a7e9"
@@ -168,8 +168,8 @@
         "z": "3bcbab72.8f0214",
         "name": "...use access token in Header for HTTP Request to get all workplaces",
         "info": "",
-        "x": 850,
-        "y": 260,
+        "x": 530,
+        "y": 340,
         "wires": []
     }
 ]
