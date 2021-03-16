@@ -15,8 +15,8 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 1050,
@@ -86,7 +86,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 930,
+        "x": 830,
         "y": 40,
         "wires": []
     },
@@ -94,13 +94,13 @@
         "id": "f72cbc71.b130c8",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "Add HTTP headers and prepare next HTTP-request",
-        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar id = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces/\" + id;\n\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "name": "Add HTTP headers and get chosen workplace",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nvar workplaceId = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces/\" + workplaceId;\n\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 720,
+        "x": 700,
         "y": 180,
         "wires": [
             [
@@ -156,8 +156,8 @@
         "tosidebar": true,
         "console": true,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
         "x": 1610,
@@ -172,7 +172,7 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1280,
+        "x": 1290,
         "y": 260,
         "wires": [
             [
@@ -185,9 +185,9 @@
         "id": "851c5062.032a5",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get all workplaces",
+        "name": "...use access token in Header for HTTP Request to retrieve a workplace",
         "info": "",
-        "x": 1050,
+        "x": 900,
         "y": 120,
         "wires": []
     },
@@ -203,7 +203,7 @@
         "label": "Workplace Id",
         "format": "{{msg.id}}",
         "layout": "row-spread",
-        "x": 1540,
+        "x": 1230,
         "y": 440,
         "wires": []
     },
@@ -211,18 +211,17 @@
         "id": "c0a1e045.696cb8",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
-        "func": "var workplace = msg.payload.properties\n\n\n\nreturn workplace;",
+        "name": "Extract workplace from response",
+        "func": "var workplace = msg.payload.properties\n\nreturn workplace;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1460,
+        "x": 1420,
         "y": 340,
         "wires": [
             [
                 "5fea1f6e.33d65",
-                "9c134bb5.8f19d8",
                 "b9fca4a6.f15f28",
                 "493c1904.dd8df8",
                 "a1b921cf.55fff8"
@@ -241,8 +240,8 @@
         "label": "Workplacenumber",
         "format": "{{msg.number}}",
         "layout": "row-spread",
-        "x": 1300,
-        "y": 460,
+        "x": 1450,
+        "y": 440,
         "wires": []
     },
     {
@@ -257,8 +256,8 @@
         "label": "Description",
         "format": "{{msg.description}}",
         "layout": "row-spread",
-        "x": 1870,
-        "y": 360,
+        "x": 1650,
+        "y": 440,
         "wires": []
     },
     {
@@ -273,8 +272,8 @@
         "label": "Operatingstate Description",
         "format": "{{msg.operatingState.description}}",
         "layout": "row-spread",
-        "x": 1780,
-        "y": 440,
+        "x": 1760,
+        "y": 340,
         "wires": []
     },
     {
@@ -290,8 +289,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1070,
-        "y": 780,
+        "x": 1190,
+        "y": 660,
         "wires": []
     },
     {
@@ -307,8 +306,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 370,
-        "y": 640,
+        "x": 350,
+        "y": 520,
         "wires": [
             [
                 "c11e947b.fa4a3"
@@ -336,8 +335,8 @@
         "topic": "",
         "payload": "{}",
         "payloadType": "json",
-        "x": 140,
-        "y": 640,
+        "x": 120,
+        "y": 520,
         "wires": [
             [
                 "7a64f7d6.44ba88"
@@ -357,22 +356,22 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 940,
-        "y": 640,
+        "x": 820,
+        "y": 520,
         "wires": []
     },
     {
         "id": "17a8343e.f1176c",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "Add HTTP headers",
+        "name": "Add HTTP headers and get current production order and operation of workplace ",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nworkplaceId = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations?isInProgress=true&limit=100&paginationDirection=NEXT&workplaceId=\" + workplaceId ;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 790,
-        "y": 780,
+        "x": 750,
+        "y": 660,
         "wires": [
             [
                 "4142fb0f.3b79fc",
@@ -384,12 +383,12 @@
         "id": "c11e947b.fa4a3",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 640,
-        "y": 640,
+        "x": 590,
+        "y": 520,
         "wires": [
             [
                 "17a8343e.f1176c",
@@ -401,7 +400,7 @@
         "id": "c38443c.a54c34",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "HTTP GET request state of workplace",
+        "name": "HTTP GET request of workplace",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -410,8 +409,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1070,
-        "y": 860,
+        "x": 980,
+        "y": 760,
         "wires": [
             [
                 "de363fdf.0b56c"
@@ -431,20 +430,20 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1630,
-        "y": 860,
+        "x": 1530,
+        "y": 760,
         "wires": []
     },
     {
         "id": "de363fdf.0b56c",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString state of workplace",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1390,
-        "y": 860,
+        "x": 1290,
+        "y": 760,
         "wires": [
             [
                 "6a9ac1a.04d92c",
@@ -456,24 +455,24 @@
         "id": "bb13522.7795e3",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to get operation in progress of workplace",
         "info": "",
-        "x": 1080,
-        "y": 720,
+        "x": 940,
+        "y": 600,
         "wires": []
     },
     {
         "id": "41d7717b.59794",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
-        "func": "\nflow.set('operationId',msg.payload._embedded.operations[0].properties.id);\nflow.set('startDateof',msg.payload._embedded.operations[0].properties.startDate);\n\nreturn msg;",
+        "name": "Extract production order and operation from response",
+        "func": "flow.set('operationId',msg.payload._embedded.operations[0].properties.id);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1600,
-        "y": 960,
+        "x": 1510,
+        "y": 840,
         "wires": [
             [
                 "7b3e1924.8067b",
@@ -500,8 +499,8 @@
         "label": "Operation Id",
         "format": "{{msg.payload._embedded.operations[0].properties.id}}",
         "layout": "row-spread",
-        "x": 1800,
-        "y": 960,
+        "x": 2050,
+        "y": 700,
         "wires": []
     },
     {
@@ -516,8 +515,8 @@
         "label": "Operationphase",
         "format": "{{msg.payload._embedded.operations[0].properties.operationPhaseId}}",
         "layout": "row-spread",
-        "x": 1790,
-        "y": 1020,
+        "x": 2060,
+        "y": 880,
         "wires": []
     },
     {
@@ -532,8 +531,8 @@
         "label": "Start date",
         "format": "{{msg.payload._embedded.operations[0].properties.startDate}}",
         "layout": "row-spread",
-        "x": 1950,
-        "y": 1080,
+        "x": 2040,
+        "y": 1000,
         "wires": []
     },
     {
@@ -548,8 +547,8 @@
         "label": "Material",
         "format": "{{msg.payload._embedded.operations[0].properties.material.number}}",
         "layout": "row-spread",
-        "x": 1890,
-        "y": 1140,
+        "x": 2040,
+        "y": 940,
         "wires": []
     },
     {
@@ -574,25 +573,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 1780,
-        "y": 1340,
-        "wires": []
-    },
-    {
-        "id": "e28ba56a.756f28",
-        "type": "debug",
-        "z": "5e33bcef.6d9a94",
-        "name": "Log request",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1050,
-        "y": 2460,
+        "x": 1620,
+        "y": 1500,
         "wires": []
     },
     {
@@ -666,17 +648,16 @@
         "id": "995ea8fd.56ae2",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "Add HTTP headers",
+        "name": "Add HTTP headers and get OEE of workplace from last 30 days",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nworkplaceId = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\n\nvar startDate = new Date();\nstartDate.setDate(startDate.getDate()-30);\n\nvar year = startDate.getFullYear()\nvar month = startDate.getMonth() + 1\nvar day = startDate.getDate()\nvar hours = startDate.getHours()\nvar mins = startDate.getMinutes()\n\n\nmonth = (month < 10) ? \"0\" + month : month;\nday = (day < 10) ? \"0\" + day : day;\nhours = (hours < 10) ? \"0\" + hours : hours;\nmins = (mins < 10) ? \"0\" + mins : mins;\n\nvar date = year+\"-\"+month+\"-\"+day+\"T\"+hours+\"%3A\"+mins+\"%3A00.000%2B00%3A00\";\n\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/reports/overallEquipmentEfficiency?startDate=\"+date+\"&workplaceId=\"+workplaceId;\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 770,
+        "x": 620,
         "y": 2460,
         "wires": [
             [
-                "e28ba56a.756f28",
                 "ffb317cb.2055c8"
             ]
         ]
@@ -685,11 +666,11 @@
         "id": "2dbb857d.4f0512",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 620,
+        "x": 590,
         "y": 2320,
         "wires": [
             [
@@ -702,7 +683,7 @@
         "id": "ffb317cb.2055c8",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "HTTP GET request state of workplace",
+        "name": "HTTP GET request OEE  of workplace",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -711,8 +692,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1050,
-        "y": 2540,
+        "x": 1070,
+        "y": 2460,
         "wires": [
             [
                 "f733ee7a.076b1"
@@ -732,20 +713,20 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1690,
-        "y": 2540,
+        "x": 1650,
+        "y": 2460,
         "wires": []
     },
     {
         "id": "f733ee7a.076b1",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString state of workplace",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
         "x": 1370,
-        "y": 2640,
+        "y": 2460,
         "wires": [
             [
                 "f57bf7fd.c25728",
@@ -757,9 +738,9 @@
         "id": "abc70b68.4962f",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to get OEE of workplace",
         "info": "",
-        "x": 1060,
+        "x": 820,
         "y": 2400,
         "wires": []
     },
@@ -767,14 +748,14 @@
         "id": "f57bf7fd.c25728",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract OEE from response",
         "func": "\n\nmsg.payload.properties.oee = ((msg.payload.properties.oee*100).toFixed(2)) + \"%\"\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1580,
-        "y": 2640,
+        "x": 1520,
+        "y": 2540,
         "wires": [
             [
                 "22ca1b6f.0e155c"
@@ -803,8 +784,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 1750,
-        "y": 2740,
+        "x": 1770,
+        "y": 2540,
         "wires": []
     },
     {
@@ -820,8 +801,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 370,
-        "y": 1060,
+        "x": 350,
+        "y": 1080,
         "wires": [
             [
                 "793f8083.6857c"
@@ -849,8 +830,8 @@
         "topic": "",
         "payload": "{}",
         "payloadType": "json",
-        "x": 140,
-        "y": 1060,
+        "x": 120,
+        "y": 1080,
         "wires": [
             [
                 "9e19acec.e6979"
@@ -870,20 +851,20 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 940,
-        "y": 1060,
+        "x": 840,
+        "y": 1080,
         "wires": []
     },
     {
         "id": "793f8083.6857c",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 640,
-        "y": 1060,
+        "x": 590,
+        "y": 1080,
         "wires": [
             [
                 "25516aff.5b77be",
@@ -895,27 +876,28 @@
         "id": "da7dc5e9.92e21",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to quantities of current operation",
         "info": "",
-        "x": 1080,
-        "y": 1140,
+        "x": 870,
+        "y": 1160,
         "wires": []
     },
     {
         "id": "ea34be32.fdd4e8",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Add HTTP headers and get quantitysummary of operation",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/quantitySummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 880,
-        "y": 1240,
+        "x": 660,
+        "y": 1220,
         "wires": [
             [
-                "f632bef1.e33608"
+                "f632bef1.e33608",
+                "cd4fe787.2a34"
             ]
         ]
     },
@@ -923,7 +905,7 @@
         "id": "f632bef1.e33608",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "HTTP GET request of operation",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -932,8 +914,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1170,
-        "y": 1240,
+        "x": 710,
+        "y": 1360,
         "wires": [
             [
                 "2e998674.cad6fa"
@@ -944,29 +926,29 @@
         "id": "e5cd5db7.e52b4",
         "type": "debug",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Log response",
         "active": true,
         "tosidebar": true,
-        "console": true,
+        "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1690,
-        "y": 1240,
+        "x": 1260,
+        "y": 1360,
         "wires": []
     },
     {
         "id": "2e998674.cad6fa",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1430,
-        "y": 1240,
+        "x": 990,
+        "y": 1360,
         "wires": [
             [
                 "e5cd5db7.e52b4",
@@ -979,18 +961,17 @@
         "id": "8850baf9.277a58",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
-        "func": "\nvar data = msg.payload.properties.totalQuantity;\nflow.set('currentQuantity',msg.payload.properties.totalQuantity)\nmsg = {payload:data,topic:\"Soil\"};\nreturn msg;\n",
+        "name": "Extract current produced quantity",
+        "func": "var data = msg.payload.properties.totalQuantity;\nflow.set('currentQuantity',msg.payload.properties.totalQuantity)\nmsg = {payload:data,topic:\"Soil\"};\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1520,
-        "y": 1360,
+        "x": 1280,
+        "y": 1500,
         "wires": [
             [
-                "3fd5b878.9c6b08",
-                "dac5b9d.e5ffbc8"
+                "3fd5b878.9c6b08"
             ]
         ]
     },
@@ -1065,11 +1046,11 @@
         "id": "a57c2f04.c51c48",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 640,
+        "x": 610,
         "y": 1920,
         "wires": [
             [
@@ -1082,23 +1063,23 @@
         "id": "ae097bf7.e01ec8",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to quantities of current operation",
         "info": "",
-        "x": 1080,
-        "y": 2000,
+        "x": 970,
+        "y": 2020,
         "wires": []
     },
     {
         "id": "a1d57a76.7e91e8",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Add HTTP headers and get quantitysummary of operation",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/quantitySummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 880,
+        "x": 780,
         "y": 2100,
         "wires": [
             [
@@ -1110,7 +1091,7 @@
         "id": "ed55599b.61b53",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "HTTP GET request of operation",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -1131,29 +1112,29 @@
         "id": "fd1d93f.cc9cb7",
         "type": "debug",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Log request",
         "active": true,
         "tosidebar": true,
-        "console": true,
+        "console": false,
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1750,
-        "y": 2060,
+        "x": 1670,
+        "y": 2100,
         "wires": []
     },
     {
         "id": "f2ef0c72.84e52",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1490,
-        "y": 2060,
+        "x": 1430,
+        "y": 2100,
         "wires": [
             [
                 "fd1d93f.cc9cb7",
@@ -1166,14 +1147,14 @@
         "id": "43563c1b.a98084",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract data for bar chart",
         "func": "\nif (msg.payload.properties.totalQuantity == 0){\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [0,\n    0,\n    0,\n    0],\n    \"labels\": [ \"yield\", \"scrap\", \"rework\", \"uncategorized\" ]\n}];\n}\nelse{\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [msg.payload.properties.elements[0].quantities.yield,\n    msg.payload.properties.elements[0].quantities.scrap,\n    msg.payload.properties.elements[0].quantities.rework,\n    msg.payload.properties.elements[0].quantities.uncategorized],\n    \"labels\": [ \"yield\", \"scrap\", \"rework\", \"uncategorized\" ]\n}];\n}\n\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1540,
-        "y": 2160,
+        "x": 1630,
+        "y": 2200,
         "wires": [
             [
                 "d1bca088.b0741"
@@ -1217,8 +1198,8 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1780,
-        "y": 2220,
+        "x": 1900,
+        "y": 2200,
         "wires": [
             []
         ]
@@ -1236,8 +1217,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 430,
-        "y": 1380,
+        "x": 350,
+        "y": 1540,
         "wires": [
             [
                 "b022f87e.b0eca"
@@ -1265,8 +1246,8 @@
         "topic": "",
         "payload": "{}",
         "payloadType": "json",
-        "x": 200,
-        "y": 1380,
+        "x": 120,
+        "y": 1540,
         "wires": [
             [
                 "f67323c7.e7e34"
@@ -1286,20 +1267,20 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1000,
-        "y": 1380,
+        "x": 920,
+        "y": 1540,
         "wires": []
     },
     {
         "id": "b022f87e.b0eca",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 700,
-        "y": 1380,
+        "x": 590,
+        "y": 1540,
         "wires": [
             [
                 "8767bcc8.d3aff",
@@ -1311,24 +1292,24 @@
         "id": "41fe000d.a2d118",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to specification of current operation",
         "info": "",
-        "x": 1140,
-        "y": 1460,
+        "x": 940,
+        "y": 1640,
         "wires": []
     },
     {
         "id": "cf5eb1d5.1a8f2",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Add HTTP headers and get specification of operation",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/specification\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 940,
-        "y": 1560,
+        "x": 760,
+        "y": 1720,
         "wires": [
             [
                 "8876f606.d8adb"
@@ -1339,7 +1320,7 @@
         "id": "8876f606.d8adb",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "HTTP GET request of operation",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -1348,8 +1329,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1230,
-        "y": 1560,
+        "x": 1130,
+        "y": 1720,
         "wires": [
             [
                 "5a46cdac.530e6c"
@@ -1360,29 +1341,29 @@
         "id": "e0f78781.ab59e8",
         "type": "debug",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Log request",
         "active": true,
         "tosidebar": true,
-        "console": true,
+        "console": false,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1750,
-        "y": 1560,
+        "x": 1590,
+        "y": 1640,
         "wires": []
     },
     {
         "id": "5a46cdac.530e6c",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1490,
-        "y": 1560,
+        "x": 1410,
+        "y": 1720,
         "wires": [
             [
                 "e0f78781.ab59e8",
@@ -1394,14 +1375,14 @@
         "id": "b787c183.5f228",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
-        "func": "var setupHours = Math.floor((msg.payload.properties.targetSetupTime / 3600000)%24).toFixed(0)\nvar setupMinutes = Math.floor((msg.payload.properties.targetSetupTime/(1000 * 60)) % 60).toFixed(0)\nvar setupSeconds = Math.floor((msg.payload.properties.targetSetupTime/1000)%60).toFixed(0)\n\nsetupHours = (setupHours < 10) ? \"0\" + setupHours : setupHours;\nsetupMinutes = (setupMinutes < 10) ? \"0\" + setupMinutes : setupMinutes;\nsetupSeconds = (setupSeconds < 10) ? \"0\" + setupSeconds : setupSeconds;\n\n\nvar processHours = Math.floor((msg.payload.properties.targetProcessingTime / 3600000)%24).toFixed(0)\nvar processMinutes = Math.floor((msg.payload.properties.targetProcessingTime/(1000 * 60)) % 60).toFixed(0)\nvar processSeconds = Math.floor((msg.payload.properties.targetProcessingTime/1000)%60).toFixed(0)\n\nprocessHours = (processHours < 10) ? \"0\" + processHours : processHours;\nprocessMinutes = (processMinutes < 10) ? \"0\" + processMinutes : processMinutes;\nprocessSeconds = (processSeconds < 10) ? \"0\" + processSeconds : processSeconds;\n\n\nvar unitHours = Math.floor((msg.payload.properties.targetTimePerUnit / 3600000)%24).toFixed(0)\nvar unitMinutes = Math.floor((msg.payload.properties.targetTimePerUnit/(1000 * 60)) % 60).toFixed(0)\nvar unitSeconds = Math.floor((msg.payload.properties.targetTimePerUnit/1000)%60).toFixed(0)\n\nunitHours = (unitHours < 10) ? \"0\" + unitHours : unitHours;\nunitMinutes = (unitMinutes < 10) ? \"0\" + unitMinutes : unitMinutes;\nunitSeconds = (unitSeconds < 10) ? \"0\" + unitSeconds : unitSeconds;\n\n\n\n\n\n\nmsg.payload.properties.targetSetupTime = setupHours+ \":\"+ setupMinutes+\":\"+setupSeconds\nmsg.payload.properties.targetProcessingTime = processHours+ \":\"+ processMinutes+\":\"+processSeconds\nmsg.payload.properties.targetTimePerUnit = unitHours+ \":\"+ unitMinutes+\":\"+unitSeconds\n\nreturn msg;",
+        "name": "Extract times to format hh:mm.ss and get target times",
+        "func": "var setupHours = Math.floor((msg.payload.properties.targetSetupTime / 3600000)%24).toFixed(0)\nvar setupMinutes = Math.floor((msg.payload.properties.targetSetupTime/(1000 * 60)) % 60).toFixed(0)\nvar setupSeconds = Math.floor((msg.payload.properties.targetSetupTime/1000)%60).toFixed(0)\n\nsetupHours = (setupHours < 10) ? \"0\" + setupHours : setupHours;\nsetupMinutes = (setupMinutes < 10) ? \"0\" + setupMinutes : setupMinutes;\nsetupSeconds = (setupSeconds < 10) ? \"0\" + setupSeconds : setupSeconds;\n\n\nvar processHours = Math.floor((msg.payload.properties.targetProcessingTime / 3600000)%24).toFixed(0)\nvar processMinutes = Math.floor((msg.payload.properties.targetProcessingTime/(1000 * 60)) % 60).toFixed(0)\nvar processSeconds = Math.floor((msg.payload.properties.targetProcessingTime/1000)%60).toFixed(0)\n\nprocessHours = (processHours < 10) ? \"0\" + processHours : processHours;\nprocessMinutes = (processMinutes < 10) ? \"0\" + processMinutes : processMinutes;\nprocessSeconds = (processSeconds < 10) ? \"0\" + processSeconds : processSeconds;\n\n\nvar unitHours = Math.floor((msg.payload.properties.targetTimePerUnit / 3600000)%24).toFixed(0)\nvar unitMinutes = Math.floor((msg.payload.properties.targetTimePerUnit/(1000 * 60)) % 60).toFixed(0)\nvar unitSeconds = Math.floor((msg.payload.properties.targetTimePerUnit/1000)%60).toFixed(0)\n\nunitHours = (unitHours < 10) ? \"0\" + unitHours : unitHours;\nunitMinutes = (unitMinutes < 10) ? \"0\" + unitMinutes : unitMinutes;\nunitSeconds = (unitSeconds < 10) ? \"0\" + unitSeconds : unitSeconds;\n\n\nmsg.payload.properties.targetSetupTime = setupHours+ \":\"+ setupMinutes+\":\"+setupSeconds\nmsg.payload.properties.targetProcessingTime = processHours+ \":\"+ processMinutes+\":\"+processSeconds\nmsg.payload.properties.targetTimePerUnit = unitHours+ \":\"+ unitMinutes+\":\"+unitSeconds\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1580,
-        "y": 1660,
+        "x": 1400,
+        "y": 1780,
         "wires": [
             [
                 "826d59d6.a0763",
@@ -1424,8 +1405,8 @@
         "label": "Target quantity",
         "format": "{{msg.payload.properties.targetQuantity}}",
         "layout": "row-spread",
-        "x": 1810,
-        "y": 1680,
+        "x": 1760,
+        "y": 1780,
         "wires": []
     },
     {
@@ -1440,8 +1421,8 @@
         "label": "Target setup time",
         "format": "{{msg.payload.properties.targetSetupTime}}",
         "layout": "row-spread",
-        "x": 1770,
-        "y": 1760,
+        "x": 1670,
+        "y": 1860,
         "wires": []
     },
     {
@@ -1456,8 +1437,8 @@
         "label": "Target processing time",
         "format": "{{msg.payload.properties.targetProcessingTime}}",
         "layout": "row-spread",
-        "x": 1580,
-        "y": 1780,
+        "x": 1430,
+        "y": 1860,
         "wires": []
     },
     {
@@ -1472,8 +1453,8 @@
         "label": "Target time per unit",
         "format": "{{msg.payload.properties.targetTimePerUnit}}",
         "layout": "row-spread",
-        "x": 1360,
-        "y": 1800,
+        "x": 1170,
+        "y": 1860,
         "wires": []
     },
     {
@@ -1498,8 +1479,8 @@
         ],
         "seg1": "",
         "seg2": "",
-        "x": 1790,
-        "y": 1300,
+        "x": 1570,
+        "y": 1420,
         "wires": []
     },
     {
@@ -1516,7 +1497,7 @@
         "proxy": "",
         "authType": "",
         "x": 370,
-        "y": 3320,
+        "y": 3120,
         "wires": [
             [
                 "6e7f7654.d1c4c8"
@@ -1545,7 +1526,7 @@
         "payload": "{}",
         "payloadType": "json",
         "x": 130,
-        "y": 3320,
+        "y": 3120,
         "wires": [
             [
                 "e1cebea1.29233"
@@ -1566,19 +1547,19 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 940,
-        "y": 3320,
+        "y": 3120,
         "wires": []
     },
     {
         "id": "6e7f7654.d1c4c8",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 640,
-        "y": 3320,
+        "x": 610,
+        "y": 3120,
         "wires": [
             [
                 "cc068bc5.6f98b8",
@@ -1590,24 +1571,24 @@
         "id": "fd66efd6.4a121",
         "type": "comment",
         "z": "5e33bcef.6d9a94",
-        "name": "...use access token in Header for HTTP Request to get state of workplace",
+        "name": "...use access token in Header for HTTP Request to get operatingstate summary of operation",
         "info": "",
-        "x": 1080,
-        "y": 3400,
+        "x": 880,
+        "y": 3240,
         "wires": []
     },
     {
         "id": "63243d6b.6a09a4",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
-        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar test = flow.get('test')\n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/operatingStateSummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
+        "name": "Add HTTP headers and get operatinstate summary of operation",
+        "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nvar operationId = flow.get('operationId');\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/operations/\" + operationId +\"/operatingStateSummary\"\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 880,
-        "y": 3500,
+        "x": 580,
+        "y": 3360,
         "wires": [
             [
                 "8f0fbf0c.84d108"
@@ -1618,7 +1599,7 @@
         "id": "8f0fbf0c.84d108",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "HTTP GET request of operation",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -1627,8 +1608,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1170,
-        "y": 3500,
+        "x": 1050,
+        "y": 3360,
         "wires": [
             [
                 "c6f16f39.154e2"
@@ -1639,29 +1620,29 @@
         "id": "d7c40fac.1fa8b",
         "type": "debug",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Log response",
         "active": true,
         "tosidebar": true,
         "console": true,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1750,
-        "y": 3460,
+        "x": 1670,
+        "y": 3360,
         "wires": []
     },
     {
         "id": "c6f16f39.154e2",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1490,
-        "y": 3460,
+        "x": 1370,
+        "y": 3360,
         "wires": [
             [
                 "d7c40fac.1fa8b",
@@ -1673,14 +1654,14 @@
         "id": "a30a48cd.e08c38",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract time to format hh:mm:ss",
         "func": "var setupHours = Math.floor((msg.payload.properties.setupTime / 3600000)%24).toFixed(0)\nvar setupMinutes = Math.floor((msg.payload.properties.setupTime/(1000 * 60)) % 60).toFixed(0)\nvar setupSeconds = Math.floor((msg.payload.properties.setupTime/1000)%60).toFixed(0)\n\nsetupHours = (setupHours < 10) ? \"0\" + setupHours : setupHours;\nsetupMinutes = (setupMinutes < 10) ? \"0\" + setupMinutes : setupMinutes;\nsetupSeconds = (setupSeconds < 10) ? \"0\" + setupSeconds : setupSeconds;\n\nvar processHours = Math.floor((msg.payload.properties.processingTime / 3600000)%24).toFixed(0)\nvar processMinutes = Math.floor((msg.payload.properties.processingTime/(1000 * 60)) % 60).toFixed(0)\nvar processSeconds = Math.floor((msg.payload.properties.processingTime/1000)%60).toFixed(0)\n\nprocessHours = (processHours < 10) ? \"0\" + processHours : processHours;\nprocessMinutes = (processMinutes < 10) ? \"0\" + processMinutes : processMinutes;\nprocessSeconds = (processSeconds < 10) ? \"0\" + processSeconds : processSeconds;\n\n\nmsg.payload.properties.setupTime = setupHours+ \":\"+ setupMinutes+\":\"+setupSeconds\nmsg.payload.properties.processingTime = processHours+ \":\"+ processMinutes+\":\"+processSeconds\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1540,
-        "y": 3540,
+        "x": 1330,
+        "y": 3480,
         "wires": [
             [
                 "4a2b654c.daa64c",
@@ -1700,8 +1681,8 @@
         "label": "Current processing time",
         "format": "{{msg.payload.properties.processingTime}}",
         "layout": "row-spread",
-        "x": 1550,
-        "y": 3660,
+        "x": 1690,
+        "y": 3520,
         "wires": []
     },
     {
@@ -1713,11 +1694,11 @@
         "width": 0,
         "height": 0,
         "name": "",
-        "label": "Production Oorder Id",
+        "label": "Production Order Id",
         "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.id}}",
         "layout": "row-spread",
-        "x": 1560,
-        "y": 1020,
+        "x": 1200,
+        "y": 1000,
         "wires": []
     },
     {
@@ -1732,8 +1713,8 @@
         "label": "Production Order Number",
         "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.number}}",
         "layout": "row-spread",
-        "x": 1610,
-        "y": 1080,
+        "x": 1470,
+        "y": 1000,
         "wires": []
     },
     {
@@ -1748,8 +1729,8 @@
         "label": "Production Order Description",
         "format": "{{msg.payload._embedded.operations[0].properties.productionOrder.description}}",
         "layout": "row-spread",
-        "x": 1660,
-        "y": 1180,
+        "x": 1770,
+        "y": 1000,
         "wires": []
     },
     {
@@ -1764,8 +1745,8 @@
         "label": "Operation number",
         "format": "{{msg.payload._embedded.operations[0].properties.number}}",
         "layout": "row-spread",
-        "x": 1940,
-        "y": 880,
+        "x": 2070,
+        "y": 760,
         "wires": []
     },
     {
@@ -1780,25 +1761,8 @@
         "label": "Operation description",
         "format": "{{msg.payload._embedded.operations[0].properties.description}}",
         "layout": "row-spread",
-        "x": 2010,
-        "y": 940,
-        "wires": []
-    },
-    {
-        "id": "35e01de7.db066a",
-        "type": "debug",
-        "z": "5e33bcef.6d9a94",
-        "name": "Log request",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1050,
-        "y": 2920,
+        "x": 2080,
+        "y": 820,
         "wires": []
     },
     {
@@ -1815,7 +1779,7 @@
         "proxy": "",
         "authType": "",
         "x": 350,
-        "y": 2780,
+        "y": 2660,
         "wires": [
             [
                 "984ff286.9f32f"
@@ -1844,7 +1808,7 @@
         "payload": "{}",
         "payloadType": "json",
         "x": 120,
-        "y": 2780,
+        "y": 2660,
         "wires": [
             [
                 "cfd6a147.775298"
@@ -1865,24 +1829,23 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 920,
-        "y": 2780,
+        "y": 2660,
         "wires": []
     },
     {
         "id": "544da4cb.a9d244",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "Add HTTP headers",
+        "name": "Add HTTP headers and get OEE of workplace from last 30 days",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \nvar workplaceId = \"FE2C1B6646544F9CAAF5F5E02CE48FE0\"\n\nvar startDate = new Date();\nstartDate.setDate(startDate.getDate()-30);\n\nvar year = startDate.getFullYear()\nvar month = startDate.getMonth() + 1\nvar day = startDate.getDate()\nvar hours = startDate.getHours()\nvar mins = startDate.getMinutes()\n\n\nmonth = (month < 10) ? \"0\" + month : month;\nday = (day < 10) ? \"0\" + day : day;\nhours = (hours < 10) ? \"0\" + hours : hours;\nmins = (mins < 10) ? \"0\" + mins : mins;\n\nvar date = year+\"-\"+month+\"-\"+day+\"T\"+hours+\"%3A\"+mins+\"%3A00.000%2B00%3A00\";\n\n\n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/reports/overallEquipmentEfficiency?startDate=\"+date+\"&workplaceId=\"+workplaceId;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 770,
-        "y": 2920,
+        "x": 600,
+        "y": 2880,
         "wires": [
             [
-                "35e01de7.db066a",
                 "ad499f4f.51cfb8"
             ]
         ]
@@ -1891,12 +1854,12 @@
         "id": "984ff286.9f32f",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString of access Token",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 620,
-        "y": 2780,
+        "x": 590,
+        "y": 2660,
         "wires": [
             [
                 "1581f737.c31a21",
@@ -1908,7 +1871,7 @@
         "id": "ad499f4f.51cfb8",
         "type": "http request",
         "z": "5e33bcef.6d9a94",
-        "name": "HTTP GET request state of workplace",
+        "name": "HTTP GET request OEE  of workplace",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -1917,8 +1880,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1050,
-        "y": 3000,
+        "x": 1030,
+        "y": 2880,
         "wires": [
             [
                 "3e0f437c.69af9c"
@@ -1938,20 +1901,20 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1690,
-        "y": 3000,
+        "x": 1590,
+        "y": 2880,
         "wires": []
     },
     {
         "id": "3e0f437c.69af9c",
         "type": "json",
         "z": "5e33bcef.6d9a94",
-        "name": "jsonString state of workplace",
+        "name": "JSON Converter",
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1350,
-        "y": 3000,
+        "x": 1330,
+        "y": 2880,
         "wires": [
             [
                 "69991364.dd05cc",
@@ -1965,22 +1928,22 @@
         "z": "5e33bcef.6d9a94",
         "name": "...use access token in Header for HTTP Request to get state of workplace",
         "info": "",
-        "x": 1060,
-        "y": 2860,
+        "x": 810,
+        "y": 2780,
         "wires": []
     },
     {
         "id": "69991364.dd05cc",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract OEE factors for bar chart",
         "func": "var quality = msg.payload.properties.quality*100\nvar performance = msg.payload.properties.performance*100\nvar availability = msg.payload.properties.availability*100\n\nmsg.payload=[{\n    \"series\": [\"\"],\n    \"data\": [quality, performance, availability],\n    \"labels\": [ \"quality\", \"performance\", \"availability\" ]\n}];\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1640,
-        "y": 3120,
+        "x": 1480,
+        "y": 3000,
         "wires": [
             [
                 "6a4eb5c9.3b5e4c"
@@ -2024,8 +1987,8 @@
         ],
         "outputs": 1,
         "useDifferentColor": false,
-        "x": 1870,
-        "y": 3120,
+        "x": 1770,
+        "y": 3000,
         "wires": [
             []
         ]
@@ -2042,22 +2005,22 @@
         "label": "Current setup time",
         "format": "{{msg.payload.properties.setupTime}}",
         "layout": "row-spread",
-        "x": 1790,
-        "y": 3680,
+        "x": 1670,
+        "y": 3460,
         "wires": []
     },
     {
         "id": "6ffa4cd2.9f2404",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract quality rate from response",
         "func": "msg.payload.properties.qualityRate = ((msg.payload.properties.qualityRate*100).toFixed(2)) + \"%\"\n\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1580,
-        "y": 1300,
+        "x": 1300,
+        "y": 1420,
         "wires": [
             [
                 "7a1f1208.3f36d4"
@@ -2065,33 +2028,17 @@
         ]
     },
     {
-        "id": "dac5b9d.e5ffbc8",
-        "type": "debug",
-        "z": "5e33bcef.6d9a94",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1710,
-        "y": 1440,
-        "wires": []
-    },
-    {
         "id": "1a4a57b0.7fb878",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Set target quantity as maximum of current produced quantity",
         "func": "var max = msg.payload.properties.targetQuantity;\n\nvar min = 0;\n\nmsg = {ui_control:{min:min,max:max},topic:\"Soil\"};\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1930,
-        "y": 1460,
+        "x": 2110,
+        "y": 1560,
         "wires": [
             [
                 "3fd5b878.9c6b08"
@@ -2110,43 +2057,43 @@
         "label": "Current Time per unit",
         "format": "{{msg.payload.properties.timePerUnit}}",
         "layout": "row-spread",
-        "x": 1340,
-        "y": 2300,
+        "x": 1380,
+        "y": 2200,
         "wires": []
     },
     {
         "id": "34536702.7647d",
         "type": "function",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Extract time to format hh:mm:ss",
         "func": "var unitHours = Math.floor((msg.payload.properties.timePerUnit / 3600000)%24).toFixed(0)\nvar unitMinutes = Math.floor((msg.payload.properties.timePerUnit/(1000 * 60)) % 60).toFixed(0)\nvar unitSeconds = Math.floor((msg.payload.properties.timePerUnit/1000)%60).toFixed(0)\n\nunitHours = (unitHours < 10) ? \"0\" + unitHours : unitHours;\nunitMinutes = (unitMinutes < 10) ? \"0\" + unitMinutes : unitMinutes;\nunitSeconds = (unitSeconds < 10) ? \"0\" + unitSeconds : unitSeconds;\n\nmsg.payload.properties.timePerUnit = unitHours+ \":\"+ unitMinutes+\":\"+unitSeconds\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1310,
+        "x": 1110,
         "y": 2200,
         "wires": [
             [
-                "7961e0c9.5632f8",
-                "2909748a.75dc9c"
+                "7961e0c9.5632f8"
             ]
         ]
     },
     {
-        "id": "2909748a.75dc9c",
+        "id": "cd4fe787.2a34",
         "type": "debug",
         "z": "5e33bcef.6d9a94",
-        "name": "",
+        "name": "Log request",
         "active": true,
-        "tosidebar": true,
+        "tosidebar": false,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1540,
-        "y": 2280,
+        "x": 1050,
+        "y": 1220,
         "wires": []
     },
     {
