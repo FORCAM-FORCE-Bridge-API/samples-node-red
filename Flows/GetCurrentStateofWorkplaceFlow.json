@@ -7,23 +7,6 @@
         "info": "A sample how to get an access token and operating state of a workplace from our BridgeAPI."
     },
     {
-        "id": "566f17cc.8f848",
-        "type": "debug",
-        "z": "639988f9.0266c",
-        "name": "Log request",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 990,
-        "y": 320,
-        "wires": []
-    },
-    {
         "id": "600c3a93.565a7c",
         "type": "http request",
         "z": "639988f9.0266c",
@@ -94,17 +77,16 @@
         "id": "fbef2230.ac2438",
         "type": "function",
         "z": "639988f9.0266c",
-        "name": "Add HTTP headers",
+        "name": "Add HTTP headers and get state of workplace",
         "func": "var custom = \"Bearer \";\nvar workplaceNumber = \"R_WPL_04\"\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/workplaces?workplaceNumber=\" + workplaceNumber;\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 770,
-        "y": 320,
+        "x": 640,
+        "y": 420,
         "wires": [
             [
-                "566f17cc.8f848",
                 "b128d8f9.8a2e9"
             ]
         ]
@@ -130,7 +112,7 @@
         "id": "b128d8f9.8a2e9",
         "type": "http request",
         "z": "639988f9.0266c",
-        "name": "HTTP GET request state of workplace",
+        "name": "Execute HTTP GET request",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -139,7 +121,7 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1030,
+        "x": 980,
         "y": 420,
         "wires": [
             [
@@ -160,8 +142,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1310,
-        "y": 500,
+        "x": 1490,
+        "y": 420,
         "wires": []
     },
     {
@@ -172,8 +154,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1060,
-        "y": 500,
+        "x": 1230,
+        "y": 420,
         "wires": [
             [
                 "5d178157.35f6",
@@ -187,8 +169,8 @@
         "z": "639988f9.0266c",
         "name": "...use access token in Header for HTTP Request to get state of workplace",
         "info": "",
-        "x": 1060,
-        "y": 260,
+        "x": 870,
+        "y": 300,
         "wires": []
     },
     {
@@ -201,8 +183,8 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1270,
-        "y": 600,
+        "x": 1380,
+        "y": 540,
         "wires": [
             [
                 "879a15a6.fa3508"
@@ -222,8 +204,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1670,
-        "y": 600,
+        "x": 1790,
+        "y": 540,
         "wires": []
     }
 ]

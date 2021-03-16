@@ -7,23 +7,6 @@
         "info": "A sample how to get an access token and all workplaces from our BridgeAPI."
     },
     {
-        "id": "364794dd.a266d4",
-        "type": "debug",
-        "z": "3bcbab72.8f0214",
-        "name": "Log request",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1070,
-        "y": 260,
-        "wires": []
-    },
-    {
         "id": "72c415d5.b0e404",
         "type": "http request",
         "z": "3bcbab72.8f0214",
@@ -36,8 +19,8 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 370,
-        "y": 120,
+        "x": 350,
+        "y": 160,
         "wires": [
             [
                 "c700a7e8.ffec3"
@@ -65,8 +48,8 @@
         "topic": "",
         "payload": "{}",
         "payloadType": "json",
-        "x": 130,
-        "y": 120,
+        "x": 110,
+        "y": 160,
         "wires": [
             [
                 "72c415d5.b0e404"
@@ -86,8 +69,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 940,
-        "y": 120,
+        "x": 900,
+        "y": 160,
         "wires": []
     },
     {
@@ -100,11 +83,10 @@
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 730,
-        "y": 260,
+        "x": 630,
+        "y": 340,
         "wires": [
             [
-                "364794dd.a266d4",
                 "deccd91e.818db8"
             ]
         ]
@@ -117,8 +99,8 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 600,
-        "y": 120,
+        "x": 580,
+        "y": 160,
         "wires": [
             [
                 "dafae09d.7e85b8",
@@ -130,7 +112,7 @@
         "id": "deccd91e.818db8",
         "type": "http request",
         "z": "3bcbab72.8f0214",
-        "name": "HTTP GET request workplaces",
+        "name": "Execute HTTP GET request",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -139,7 +121,7 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1050,
+        "x": 1000,
         "y": 340,
         "wires": [
             [
@@ -156,11 +138,11 @@
         "tosidebar": true,
         "console": true,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1580,
+        "x": 1530,
         "y": 340,
         "wires": []
     },
@@ -172,7 +154,7 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1320,
+        "x": 1270,
         "y": 340,
         "wires": [
             [
@@ -186,8 +168,8 @@
         "z": "3bcbab72.8f0214",
         "name": "...use access token in Header for HTTP Request to get all workplaces",
         "info": "",
-        "x": 910,
-        "y": 200,
+        "x": 850,
+        "y": 260,
         "wires": []
     }
 ]

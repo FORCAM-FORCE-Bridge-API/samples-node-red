@@ -7,23 +7,6 @@
         "info": "A sample how to get an access token and all operating states from our BridgeAPI."
     },
     {
-        "id": "4ebea9e3.d65ab8",
-        "type": "debug",
-        "z": "6d2e7c0a.f31074",
-        "name": "Log request",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1050,
-        "y": 280,
-        "wires": []
-    },
-    {
         "id": "5af2559c.bc798c",
         "type": "http request",
         "z": "6d2e7c0a.f31074",
@@ -94,17 +77,16 @@
         "id": "b438516c.8b6b88",
         "type": "function",
         "z": "6d2e7c0a.f31074",
-        "name": "Add HTTP headers",
+        "name": "Add HTTP headers and get all operating states",
         "func": "var custom = \"Bearer \";\ncustom += msg.payload.access_token; \n\nmsg.payload ={};\nmsg.responseUrl={};\nmsg.responseCookies={};\nmsg.redirectList={};\n\nmsg.url = \"https://forcebridgehackathon.force.eco:24443/ffwebservices/api/v3/masterData/operatingStates\";\n\nmsg.headers = {\n    \"Authorization\" : custom,\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 770,
-        "y": 280,
+        "x": 640,
+        "y": 360,
         "wires": [
             [
-                "4ebea9e3.d65ab8",
                 "d8c99464.940f2"
             ]
         ]
@@ -130,7 +112,7 @@
         "id": "d8c99464.940f2",
         "type": "http request",
         "z": "6d2e7c0a.f31074",
-        "name": "HTTP GET request all operating states",
+        "name": "Execute HTTP GET request",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
@@ -139,7 +121,7 @@
         "persist": false,
         "proxy": "",
         "authType": "",
-        "x": 1050,
+        "x": 980,
         "y": 360,
         "wires": [
             [
@@ -156,11 +138,11 @@
         "tosidebar": true,
         "console": true,
         "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1710,
+        "x": 1750,
         "y": 360,
         "wires": []
     },
@@ -172,7 +154,7 @@
         "property": "payload",
         "action": "",
         "pretty": false,
-        "x": 1300,
+        "x": 1230,
         "y": 360,
         "wires": [
             [
@@ -186,21 +168,21 @@
         "z": "6d2e7c0a.f31074",
         "name": "...use access token in Header for HTTP Request to get all operating states",
         "info": "",
-        "x": 1060,
-        "y": 220,
+        "x": 890,
+        "y": 240,
         "wires": []
     },
     {
         "id": "6dbcceec.3b222",
         "type": "function",
         "z": "6d2e7c0a.f31074",
-        "name": "",
+        "name": "Extract operating states",
         "func": "msg.payload = msg.payload._embedded.operatingStates;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
-        "x": 1500,
+        "x": 1490,
         "y": 360,
         "wires": [
             [
