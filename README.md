@@ -73,3 +73,11 @@ A small Node-Red application wich authenticates to a FORCAM FORCE Bridge API, de
 ![Image](assets/GetOperatingStatesGif.gif)
 
 File: "GetAllOperatingStatesFlow.json ".
+
+# Dashboard for a workplace
+
+A Node-Red application wich authenticates to a FORCAM FORCE Bridge API, determine current operation of a workplace, target and current times of operation, quantities of operation, the OEE of the workplace for last 30 days and show them in a dashboard.
+
+![Image](assets/DashboardForOneWorkplaceGif.gif)
+
+File: "DashboardForOneWorkplaceFlow.json ".
